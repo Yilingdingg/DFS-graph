@@ -21,39 +21,31 @@ class Graph:
         res=[]
         self.DFS_util(src,visited,res)
         return res
-
-def Pre_t(root):
-    print(root.value)
-    if root.left!=None:
-        Pre_t(root.left)
-    if root.right!=None:
-        Pre_t(root.right)
-
-def Post_t(root):
-    if root.left!=None:
-        Post_t(root.left)
-    if root.right!=None:
-        Post_t(root.right)
-    print(root.value)
-
-def In_t(root):
-    if root.left!=None:
-        In_t(root.left)
-    print(root.value)
-    if root.right!=None:
-        In_t(root.right)
-
-graph_r = None
-tree_r = None    
+    
+    def BFS(self, src):
+            visited=[False]*self.n
+            distance=[-1]*self.n
+            res=[]
+            queue=[]
+            queue.append(src)
+            visited[src]=True
+            distance[src]=0
+            while len(queue) > 0:
+                s=queue.pop(0)
+                res.append(s)
+                for item in self.adj[s]:
+                    if visited[item]==False:
+                        queue.append(item)
+                        visited[item]=True
+                        distance[item]=distance[s]+1
+            return distance
 
 while True:
     print("\n DFS Graph Menu")
     print("1. Insert max value and edges")
     print("2. DFS graph")
-    print("3. Preorder traversal")
-    print("4. Postorder traversal")
-    print("5. Inorder traversal")
-    print("6. Exit")
+    print("3. BFS graph")
+    print("4. Exit")
 
     response=int(input("Enter your choice:"))
 
@@ -66,26 +58,16 @@ while True:
             graph_r.edge(edge_1,edge_2)
 
     elif response==2:
-        if graph_r is None:
-            print("First create a graph.")
-        else:
-            source_r=int(input("Choose a value for the source:"))
-            result=graph_r.DFS(source_r)
+            source_d=int(input("Choose a value for the source:"))
+            result=graph_r.DFS(source_d)
             print("The result of the DFS graph is:", result)
 
-    elif response in [3,4,5]:
-            if response == 3:
-                print("Pretarversal :")
-                Pre_t(tree_r)
-            elif response == 4:
-                print("Posttraversal  :")
-                Post_t(tree_r)
-            elif response == 5:
-                print("Intraversal :")
-                In_t(tree_r)
-            print()
-    
-    elif response==6:
+    elif response==3:
+            source_b=int(input("Choose a value for the source:"))
+            result=graph_r.BFS(source_b)
+            print("The result of the BFS graph is:", result)        
+
+    elif response==4:
         print("Exit program.")
         break
 
